@@ -7,6 +7,7 @@
 
 # issue.edit('New issue title', issue.body + '\n------\n**Update:** Text to append')
 
+help('modules')
 
 import os
 import json
@@ -39,3 +40,5 @@ def make_github_issue(title, body=None, labels=None):
     else:
         print ('Could not create Issue {0:s}'.format(title))
         print ('Response:', r.content)
+        
+make_github_issue("TITLE")
