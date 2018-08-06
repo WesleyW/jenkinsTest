@@ -5,12 +5,11 @@
 
 # issue.edit('New issue title', issue.body + '\n------\n**Update:** Text to append')
 
-help('modules')
-import os.environ['testPassword']
-
 import os
 import json
 import requests
+
+print os.environ['testPassword']
 
 # Authentication for user filing issue (must have read/write access to
 # repository to add issue to)
