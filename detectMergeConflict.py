@@ -8,6 +8,7 @@ import github3
 # issue.edit('New issue title', issue.body + '\n------\n**Update:** Text to append')
 
 help('modules')
+print os.environ('testPassword')
 
 import os
 import json
