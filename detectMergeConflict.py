@@ -1,5 +1,3 @@
-import github3
-
 # gh = login("WesleyW", pw)
 # issue = gh.issue(user, repo, num)
 # if issue.is_closed():
