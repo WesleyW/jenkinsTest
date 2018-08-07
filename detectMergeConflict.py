@@ -22,6 +22,7 @@ def get_pr_mergeable():
 
     return json.loads(response.content)['mergeable']
 
+#Will wait 30 seconds for Github to calculate merge conflicts in this PR
 wait_time = 0
 mergeable = get_pr_mergeable()
 while mergeable == None:
