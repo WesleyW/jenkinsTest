@@ -22,10 +22,10 @@ content = json.loads(response.content)
 if not content['mergeable']:
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
     comment = {"body": "Your pull request has resulted in a merge conflict error."}
-    print session.post(comment_url, comment).content + "\n____________________________\n"
+    print session.post(comment_url, json.load(comment)).content + "\n____________________________\n"
     
     label_url = 'https://api.github.com/repos/%s/%s/issues/2/labels' % (REPO_OWNER, REPO_NAME)
     label = ["pr: don't merge - has merge conflicts"]
-    print session.post(label_url, label).content
+    print session.post(label_url, json.load(label)).content
 else:
     print "File has not merge conflicts."
