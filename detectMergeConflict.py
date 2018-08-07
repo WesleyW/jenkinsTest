@@ -27,3 +27,5 @@ if not content['mergeable']:
     label_url = 'https://api.github.com/repos/%s/%s/issues/2/labels' % (REPO_OWNER, REPO_NAME)
     label = "pr: don't merge - has merge conflicts"
     session.post(label_url, label)
+ else:
+    print "Everything is great"
