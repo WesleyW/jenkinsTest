@@ -14,7 +14,7 @@ session = requests.Session()
 session.auth = (USERNAME, PASSWORD)
 response = session.get(pr_url)
 
-if response == null:
+if response == None:
     raise 'No response from GitHub.'
 
 content = json.loads(response).content
