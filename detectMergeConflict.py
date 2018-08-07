@@ -1,10 +1,3 @@
-# gh = login("WesleyW", pw)
-# issue = gh.issue(user, repo, num)
-# if issue.is_closed():
-#     issue.reopen()
-
-# issue.edit('New issue title', issue.body + '\n------\n**Update:** Text to append')
-
 import os
 import json
 import requests
@@ -13,12 +6,12 @@ print os.environ['testPassword']
 
 # Authentication for user filing issue (must have read/write access to
 # repository to add issue to)
-USERNAME = 'CHANGEME'
-PASSWORD = 'CHANGEME'
+USERNAME = os.environ['ghUsername']
+PASSWORD = os.environ['ghPassword']
 
 # The repository to add this issue to
-REPO_OWNER = 'CHANGEME'
-REPO_NAME = 'CHANGEME'
+REPO_OWNER = os.environ['repoOwner']
+REPO_NAME = os.environ['repoName']
 
 def make_github_issue(title, body=None, labels=None):
     '''Create an issue on github.com using the given parameters.'''
