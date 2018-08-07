@@ -11,12 +11,22 @@ PASSWORD = os.environ['ghPassword']
 REPO_OWNER = os.environ['repoOwner']
 REPO_NAME = os.environ['repoName']
 
+
+pr_url = 'https://api.github.com/repos/%s/%s/pulls/2' % (REPO_OWNER, REPO_NAME)
+
+response = session.get(pr_url)
+
+if response == null:
+    raise 'No response from GitHub.'
+
+content = json.loads(response).content
+
+if not content.mergeable:
+    comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
+
 def make_github_issue(title, body=None, labels=[]):
     '''Create an issue on github.com using the given parameters.'''
-    # Our url to create issues via POST
-    
-    url = 'https://api.github.com/repos/%s/%s/pulls/2' % (REPO_OWNER, REPO_NAME)
-    
+        
     # Create an authenticated session to create the issue
     session = requests.Session()
     session.auth = (USERNAME, PASSWORD)
