@@ -27,7 +27,7 @@ def make_github_issue(title, body=None, labels=[]):
     # Add the issue to our repository
 #     r = session.post(url, json.dumps(issue))
     r = session.get(url)
-    content = JSON.parse(r.content)
+    content = r.content
     print content['mergeable']
 #     if r.status_code == 201:
 #         print ('Successfully created Issue {0:s}'.format(title))
