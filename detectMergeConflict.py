@@ -17,7 +17,7 @@ response = session.get(pr_url)
 if response == None:
     raise 'No response from GitHub.'
 
-content = json.loads(response).content
+content = json.loads(response.content)
 
 if not content.mergeable:
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
