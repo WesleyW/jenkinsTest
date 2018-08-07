@@ -25,6 +25,7 @@ def make_github_issue(title, body=None, labels=[]):
 #              'labels': labels}
     # Add the issue to our repository
     r = session.get(url, json.dumps(issue))
+    print r.content
 #     if r.status_code == 201:
 #         print ('Successfully created Issue {0:s}'.format(title))
 #     else:
