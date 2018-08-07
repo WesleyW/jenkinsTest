@@ -11,7 +11,7 @@ PASSWORD = os.environ['ghPassword']
 REPO_OWNER = os.environ['repoOwner']
 REPO_NAME = os.environ['repoName']
 
-def make_github_issue(title, body=None, labels=None):
+def make_github_issue(title, body=None, labels=[]):
     '''Create an issue on github.com using the given parameters.'''
     # Our url to create issues via POST
     url = 'https://api.github.com/repos/%s/%s/issues' % (REPO_OWNER, REPO_NAME)
