@@ -19,7 +19,7 @@ if response == None:
 
 content = json.loads(response.content)
 
-if not content.mergeable:
+if not content['mergeable']:
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
     comment = {"body": "Your pull request has resulted in a merge conflict error."}
     session.post(comment_url, comment)
