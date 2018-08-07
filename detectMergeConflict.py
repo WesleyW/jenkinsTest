@@ -2,8 +2,6 @@ import os
 import json
 import requests
 
-print os.environ['testPassword']
-
 # Authentication for user filing issue (must have read/write access to
 # repository to add issue to)
 USERNAME = os.environ['ghUsername']
