@@ -13,7 +13,8 @@ REPO_NAME = os.environ['repoName']
 session = requests.Session()
 session.auth = (USERNAME, PASSWORD)
 
-MERGE_CONFLICT_MSG = 'Your pull request has resulted in a merge conflict error.'
+MERGE_CONFLICT_COMMENT = 'Your pull request has resulted in a merge conflict error.'
+MERGE_CONFLICT_LABEL = "pr: don't merge - has merge conflicts"
 
 #Returns whether the PR is mergeable - i.e. has no merge conflicts
 def get_mergeable_value():
@@ -50,7 +51,7 @@ def check_pr_comments():
     
     responseJson = json.loads(response.content)
     for comment in responseJson:
-        if comment['body'] == MERGE_CONFLICT_MSG:
+        if comment['body'] == MERGE_CONFLICT_COMMENT:
             return comment['id']
     return false
 
@@ -58,29 +59,52 @@ def check_pr_comments():
 def delete_comment(id):
     delete_url = 'https://api.github.com/repos/%s/%s/issues/comments/%d' % (REPO_OWNER, REPO_NAME, id)
     session.delete(delete_url)
+    
+#Returns true if PR has merge conflict label, else false.
+def check_pr_labels():
+    label_url = 'https://api.github.com/repos/%s/%s/labels' % (REPO_OWNER, REPO_NAME)
+    response = session.get(label_url)
+    
+    if response == None: #Technically it means github didn't respond so should raise error or send new request but eh...
+        return false
+    
+    responseJson = json.loads(response.content)
+    for label in responseJson:
+        if label['name'] == MERGE_CONFLICT_LABEL:
+            return true
+    return false
+
+#Deletes merge conflict label. Call if label is tagged but no merge conflict exists.
+def delete_label():
+    delete_url = 'https://api.github.com/repos/%s/%s/issues/2/%s' % (REPO_OWNER, REPO_NAME, MERGE_CONFLICT_LABEL)
+    session.delete(delete_url)
+
+
 
 mergeable = get_pr_mergeable()
 comment_id = check_pr_comments()
+has_label = check_pr_labels()
 
 if mergeable:
     print "PR does NOT have merge conflicts."
     if comment_id:
         delete_comment(id)
         print "Deleted merge conflict message from pull request."
+    if has_label:
+        delete_label()
+        print "Deleted merge conflict label."
 else:
     print "PR has merge conflicts."
-    if not comment_id:
+    if comment_id:
+        print "Merge conflict message was already posted."
+    else:
         comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
         comment = {"body": MERGE_CONFLICT_MSG}
         print "Posted merge conflict message."
-
-# if not mergeable:
-#     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
-#     comment = {"body": MERGE_CONFLICT_MSG}
-#     print session.post(comment_url, json=comment).content + "\n____________________________\n"
-    
-#     label_url = 'https://api.github.com/repos/%s/%s/issues/2/labels' % (REPO_OWNER, REPO_NAME)
-#     label = ["pr: don't merge - has merge conflicts"]
-#     print session.post(label_url, json=label).content
-# else:
-#     print "File has no merge conflicts."
+        
+    if has_label:
+        print "Merge conflict label was already added."
+    else:
+        label_url = 'https://api.github.com/repos/%s/%s/issues/2/labels' % (REPO_OWNER, REPO_NAME)
+        session.post(label_url, json=[MERGE_CONFLICT_LABEL])
+        print "Added merge conflict label."
