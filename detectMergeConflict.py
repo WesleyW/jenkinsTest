@@ -20,7 +20,9 @@ def get_pr_mergeable():
     if response == None:
         raise 'No response from GitHub.'
 
-    print response.content
+    responseJson = json.loads(response.content)
+    if 'mergeable' not in responseJson.keys:
+        raise 'Could not check for merge conflicts in response - most likely due to bad credentials.\nResponse:\n' + response
     ret = json.loads(response.content)['mergeable']
     if ret:
         return ret
