@@ -45,11 +45,13 @@ def check_pr_comments():
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
     response = session.get(comment_url)
     
-    return false if response == None #Technically it means github didn't respond so should raise error or send new request but eh...
+    if response == None: #Technically it means github didn't respond so should raise error or send new request but eh...
+        return false
     
     responseJson = json.loads(response.content)
     for comment in responseJson:
-        return comment['id'] if comment['body'] == MERGE_CONFLICT_MSG
+        if comment['body'] == MERGE_CONFLICT_MSG:
+            return comment['id']
     return false
 
 #Deletes comment with corresponding id. Call if message exists but there are no merge conflicts
