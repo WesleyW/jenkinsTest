@@ -21,10 +21,9 @@ def get_pr_mergeable():
         raise 'No response from GitHub.'
 
     responseJson = json.loads(response.content)
-    
-    print USERNAME, PASSWORD
+    print responseJson
     if 'mergeable' not in responseJson.keys():
-        raise 'Could not check for merge conflicts in response - most likely due to bad credentials.\nResponse:\n' + response.content
+        raise ValueError('Could not check for merge conflicts in response - most likely due to bad credentials.\nResponse:\n' + response.content)
     ret = json.loads(response.content)['mergeable']
     if ret:
         return ret
@@ -34,7 +33,7 @@ wait_time = 0
 mergeable = get_pr_mergeable()
 while mergeable == None:
     if wait_time > 30:
-        raise 'Github has not calculated PR merge conflicts within 30 seconds.'
+        raise 'Github has not calculated PR merge conflicts within 30 seconds. Build again if you would like to check for merge conflict.'
     time.sleep(5)
     wait_time += 5
     mergeable = get_pr_mergeable()
