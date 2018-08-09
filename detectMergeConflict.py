@@ -35,7 +35,7 @@ while mergeable == None:
     time.sleep(5)
     wait_time += 5
     mergeable = get_pr_mergeable()
-    print '_____________________________________________\n' + mergeable
+    print '_____________________________________________\nMergeable: ' + mergeable + '\n_____________________'
 
 if not mergeable:
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
@@ -46,4 +46,4 @@ if not mergeable:
     label = ["pr: don't merge - has merge conflicts"]
     print session.post(label_url, json=label).content
 else:
-    print "File has not merge conflicts."
+    print "File has no merge conflicts."
