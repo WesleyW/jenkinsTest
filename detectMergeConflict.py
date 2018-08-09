@@ -35,7 +35,7 @@ while mergeable == None:
     time.sleep(5)
     wait_time += 5
     mergeable = get_pr_mergeable()
-    print '_____________________________________________\nMergeable: ' + mergeable + '\n_____________________'
+    print '_____________________________________________\nMergeable: ' + str(mergeable) + '\n_____________________'
 
 if not mergeable:
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
