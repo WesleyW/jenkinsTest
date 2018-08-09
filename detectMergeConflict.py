@@ -20,8 +20,8 @@ def get_pr_mergeable():
     if response == None:
         raise 'No response from GitHub.'
 
-    ret = json.loads(response.content)['mergeable']
     print response.content
+    ret = json.loads(response.content)['mergeable']
     if ret:
         return ret
 
