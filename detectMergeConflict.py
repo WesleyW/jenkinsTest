@@ -30,7 +30,7 @@ def get_mergeable_value():
     return json.loads(response.content)['mergeable']
 
 #Check if Github has finished calculating merge conflicts every 5 seconds. Raises error after more than 30 seconds.
-def get_pr_mergeable():
+def get_mergeable():
     wait_time = 0
     mergeable = get_mergeable_value()
     while mergeable == None:
@@ -42,7 +42,7 @@ def get_pr_mergeable():
     return mergeable
 
 #Returns comment ID if PR already has a merge conflict comment, else false.
-def check_pr_comments():
+def check_comments():
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
     response = session.get(comment_url)
     
@@ -61,7 +61,7 @@ def delete_comment(id):
     session.delete(delete_url)
     
 #Returns true if PR has merge conflict label, else false.
-def check_pr_labels():
+def check_labels():
     label_url = 'https://api.github.com/repos/%s/%s/labels' % (REPO_OWNER, REPO_NAME)
     response = session.get(label_url)
     
@@ -69,6 +69,7 @@ def check_pr_labels():
         return False
     
     responseJson = json.loads(response.content)
+    print responseJson
     for label in responseJson:
         if label['name'] == MERGE_CONFLICT_LABEL:
             return True
@@ -81,9 +82,9 @@ def delete_label():
 
 
 
-mergeable = get_pr_mergeable()
-comment_id = check_pr_comments()
-has_label = check_pr_labels()
+mergeable = get_mergeable()
+comment_id = check_comments()
+has_label = check_labels()
 
 if mergeable:
     print "PR does NOT have merge conflicts."
