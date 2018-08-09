@@ -24,9 +24,7 @@ def get_pr_mergeable():
     print responseJson
     if 'mergeable' not in responseJson.keys():
         raise ValueError('Could not check for merge conflicts in response - most likely due to bad credentials.\nResponse:\n' + response.content)
-    ret = json.loads(response.content)['mergeable']
-    if ret:
-        return ret
+    return json.loads(response.content)['mergeable']
 
 #Will wait 30 seconds for Github to calculate merge conflicts in this PR
 wait_time = 0
@@ -37,6 +35,7 @@ while mergeable == None:
     time.sleep(5)
     wait_time += 5
     mergeable = get_pr_mergeable()
+    print '_____________________________________________\n' + mergeable
 
 if not mergeable:
     comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
