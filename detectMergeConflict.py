@@ -47,13 +47,13 @@ def check_pr_comments():
     response = session.get(comment_url)
     
     if response == None: #Technically it means github didn't respond so should raise error or send new request but eh...
-        return false
+        return False
     
     responseJson = json.loads(response.content)
     for comment in responseJson:
         if comment['body'] == MERGE_CONFLICT_COMMENT:
             return comment['id']
-    return false
+    return False
 
 #Deletes comment with corresponding id. Call if message exists but there are no merge conflicts
 def delete_comment(id):
@@ -66,13 +66,13 @@ def check_pr_labels():
     response = session.get(label_url)
     
     if response == None: #Technically it means github didn't respond so should raise error or send new request but eh...
-        return false
+        return False
     
     responseJson = json.loads(response.content)
     for label in responseJson:
         if label['name'] == MERGE_CONFLICT_LABEL:
-            return true
-    return false
+            return True
+    return False
 
 #Deletes merge conflict label. Call if label is tagged but no merge conflict exists.
 def delete_label():
