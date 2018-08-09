@@ -99,7 +99,8 @@ else:
         print "Merge conflict message was already posted."
     else:
         comment_url = 'https://api.github.com/repos/%s/%s/issues/2/comments' % (REPO_OWNER, REPO_NAME)
-        comment = {"body": MERGE_CONFLICT_MSG}
+        comment = {"body": MERGE_CONFLICT_COMMENT}
+        session.post(comment_url, json=comment)
         print "Posted merge conflict message."
         
     if has_label:
