@@ -23,7 +23,7 @@ def get_pr_mergeable():
     ret = json.loads(response.content)['mergeable']
     if ret:
         return ret
-    else
+    else:
         print response.content
 
 #Will wait 30 seconds for Github to calculate merge conflicts in this PR
