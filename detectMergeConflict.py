@@ -24,7 +24,7 @@ def get_pr_mergeable():
     
     print USERNAME, PASSWORD
     if 'mergeable' not in responseJson.keys():
-        raise 'Could not check for merge conflicts in response - most likely due to bad credentials.\nResponse:\n' + response
+        raise 'Could not check for merge conflicts in response - most likely due to bad credentials.\nResponse:\n' + response.content
     ret = json.loads(response.content)['mergeable']
     if ret:
         return ret
