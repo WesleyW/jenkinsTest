@@ -62,7 +62,7 @@ def delete_comment(id):
     
 #Returns true if PR has merge conflict label, else false.
 def check_labels():
-    label_url = 'https://api.github.com/repos/%s/%s/labels' % (REPO_OWNER, REPO_NAME)
+    label_url = 'https://api.github.com/repos/%s/%s/issues/2/labels' % (REPO_OWNER, REPO_NAME)
     response = session.get(label_url)
     
     if response == None: #Technically it means github didn't respond so should raise error or send new request but eh...
