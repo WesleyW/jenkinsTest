@@ -16,7 +16,7 @@ session.auth = (USERNAME, PASSWORD)
 MERGE_CONFLICT_MSG = 'Your pull request has resulted in a merge conflict error.'
 
 #Returns whether the PR is mergeable - i.e. has no merge conflicts
-def helper_get_mergeable():
+def get_mergeable_value():
     pr_url = 'https://api.github.com/repos/%s/%s/pulls/2' % (REPO_OWNER, REPO_NAME)
     response = session.get(pr_url)
 
@@ -31,13 +31,13 @@ def helper_get_mergeable():
 #Check if Github has finished calculating merge conflicts every 5 seconds. Raises error after more than 30 seconds.
 def get_pr_mergeable():
     wait_time = 0
-    mergeable = get_pr_mergeable()
+    mergeable = get_mergeable_value()
     while mergeable == None:
         if wait_time > 30:
             raise 'Github has not calculated PR merge conflicts within 30 seconds. Build again if you would like to check for merge conflict.'
         time.sleep(5)
         wait_time += 5
-        mergeable = get_pr_mergeable()
+        mergeable = get_mergeable_value()
     return mergeable
 
 #Returns comment ID if PR already has a merge conflict comment, else false.
