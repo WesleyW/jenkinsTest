@@ -3,6 +3,8 @@ import json
 import requests
 import time
 
+print os.environ.keys()
+
 #Authentication, repository, and pull request information
 USERNAME = os.environ['ghUsername']
 PASSWORD = os.environ['ghPassword']
